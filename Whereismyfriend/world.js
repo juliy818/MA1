@@ -47,7 +47,7 @@ class world extends Phaser.Scene {
     //console.log(startPoint.x, startPoint.y)
     
     this.player = this.physics.add.sprite(startPoint.x, startPoint.y, 'mc');
-    this.player.body.setSize(this.player.width * 0.5,this.player.height  * 0.8)
+    this.player.body.setSize(this.player.width * 0.5,this.player.height ).setOffset(16,0)
     window.player = this.player
     
   
@@ -67,7 +67,7 @@ class world extends Phaser.Scene {
     // Add custom properties in Tiled called "mouintain" as bool
 
     // What will collider witg what layers
-    // this.physics.add.collider(mapLayer, this.player);
+    this.physics.add.collider(this.riverLayer, this.player);
 
     // create the arrow keys
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -86,17 +86,17 @@ class world extends Phaser.Scene {
 
   update() { 
     if (this.cursors.left.isDown) {
-      this.player.body.setVelocityX(-200);
+      this.player.body.setVelocityX(-300);
       this.player.anims.play("left", true); // walk left
     } else if (this.cursors.right.isDown) {
-      this.player.body.setVelocityX(200);
+      this.player.body.setVelocityX(300);
       this.player.anims.play("right", true);
     } else if (this.cursors.up.isDown) {
-      this.player.body.setVelocityY(-200);
+      this.player.body.setVelocityY(-300);
       this.player.anims.play("up", true);
       //console.log('up');
     } else if (this.cursors.down.isDown) {
-      this.player.body.setVelocityY(200);
+      this.player.body.setVelocityY(300);
       this.player.anims.play("down", true);
       //console.log('down');
     } else {
@@ -104,10 +104,10 @@ class world extends Phaser.Scene {
       this.player.body.setVelocity(0, 0);
     }
      if (
-      this.player.x > 1070&&
-      this.player.x < 1090 &&
-      this.player.y > 489 &&
-      this.player.y < 500
+      this.player.x > 991&&
+      this.player.x < 1055 &&
+      this.player.y > 450 &&
+      this.player.y < 540
     ) {
       console.log("jump to room1")
       this.room1();

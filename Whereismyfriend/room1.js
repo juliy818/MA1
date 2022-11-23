@@ -33,8 +33,9 @@ class room1 extends Phaser.Scene {
         //this.physics.world.bounds.width = this.groundLayer.width;
         //this.physics.world.bounds.height = this.groundLayer.height;
     
-        this.player = this.physics.add.sprite(300, 400, "down");
-    
+        this.player = this.physics.add.sprite(300, 400, "mc");
+        this.player.body.setSize(this.player.width * 0.5,this.player.height ).setOffset(16,0)
+
         // Enable debugging
         window.player = this.player;
     
@@ -44,13 +45,15 @@ class room1 extends Phaser.Scene {
     
         // // camera follow player
         this.cameras.main.startFollow(this.player);
+
+        
         
     }
 
     update() {
       
-      if (this.player.x > 280 && this.player.x < 370 && this.player.y > 490) {
-        this.world();
+      if (this.player.x > 191 && this.player.x < 223 && this.player.y < 940 &&this.player.y > 908 ) {
+        this.room2();
       }
   
       if (this.cursors.left.isDown) {
@@ -75,12 +78,12 @@ class room1 extends Phaser.Scene {
     
   
     // Function to jump to room1
-    world(player, tile) {
-      console.log("world function");
-      let.player={}
-      player.x =114
-      player.y =510
-      this.scene.start("world");
+    room2(player, tile) {
+      console.log("room2 function");
+      let playerPos={}
+      playerPos.x =114
+      playerPos.y =510
+      this.scene.start("room2");
     }
 
     }

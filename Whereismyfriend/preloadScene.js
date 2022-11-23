@@ -7,6 +7,9 @@ class preloadScene extends Phaser.Scene {
 
 preload() {
    this.load.spritesheet('mc', 'assets/mc.png',{ frameWidth:64, frameHeight:64 });
+   this.load.audio("bgm","assets/bgmusic.mp3")
+   this.load.image('intro', 'assets/introscene.jpg');
+   
 
 }
 
@@ -22,7 +25,13 @@ create() {
         console.log("Spacebar pressed, goto world");
         this.scene.start("world");
         }, this );
-
+    
+    this.bgm= this.sound.add("bgm", {loop:true}).setVolume(0.2)
+    this.bgm.play();
+    
+    this.add.image(0,0,'intro').setOrigin(0,0);
+    console.log("This is intro")
+  
 
     
         this.anims.create({
