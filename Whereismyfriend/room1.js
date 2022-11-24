@@ -45,6 +45,9 @@ class room1 extends Phaser.Scene {
     
         // // camera follow player
         this.cameras.main.startFollow(this.player);
+        
+       
+ 
 
         
         

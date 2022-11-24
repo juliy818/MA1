@@ -33,7 +33,7 @@ class room2 extends Phaser.Scene {
         this.objectLayer = map.createLayer("objectLayer", tilesArray, 0, 0);
         // this.testLayer = map.createLayer("testLayer", tilesArray, 0, 0);
         
-    
+        this.physics.add.collider(this.wallLayer, this.player);
     
         //this.physics.world.bounds.width = this.groundLayer.width;
         //this.physics.world.bounds.height = this.groundLayer.height;

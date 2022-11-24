@@ -1,5 +1,5 @@
 class preloadScene extends Phaser.Scene {
-
+ 
     constructor ()
     {
         super({ key: 'preloadScene' });
@@ -18,16 +18,16 @@ create() {
     var spaceDown = this.input.keyboard.addKey('SPACE');
         
     this.input.on('pointerdown', function (pointer) {
-        this.scene.start("world");
+        this.scene.start("storyline");
         }, this);
 
     spaceDown.on('down', function(){
-        console.log("Spacebar pressed, goto world");
-        this.scene.start("world");
+        console.log("Spacebar pressed, goto storyline");
+        this.scene.start("storyline");
         }, this );
     
     this.bgm= this.sound.add("bgm", {loop:true}).setVolume(0.2)
-    this.bgm.play();
+    this.bgm.stop();
     
     this.add.image(0,0,'intro').setOrigin(0,0);
     console.log("This is intro")

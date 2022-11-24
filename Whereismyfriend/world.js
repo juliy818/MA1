@@ -9,10 +9,11 @@ class world extends Phaser.Scene {
 
   preload() {
     // Step 1, load JSON
-    //this.load.tilemapTiledJSON("world1", "assets/Tutorial1.json");
+   
     this.load.tilemapTiledJSON("world", "assets/map3.tmj");
-    //this.load.image("forestimg", "assets/Example_forest.png");
     this.load.image("forestimg2", "assets/forest_tiles.png");
+    this.load.image("ghost", "assets/ghost.png");
+    
  
   }
 
@@ -67,8 +68,13 @@ class world extends Phaser.Scene {
     // Add custom properties in Tiled called "mouintain" as bool
 
     // What will collider witg what layers
+    this.player.setCollideWorldBounds(true)
+    this.riverLayer.setCollisionByExclusion(-1,true)
     this.physics.add.collider(this.riverLayer, this.player);
 
+    
+
+   
     // create the arrow keys
     this.cursors = this.input.keyboard.createCursorKeys();
     // this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -79,6 +85,27 @@ class world extends Phaser.Scene {
    
     // set background color, so the sky is not black
     this.cameras.main.setBackgroundColor("#ccccff");
+
+    //enemy
+
+    this.time.addEvent({
+     delay: 0,
+     callback: this.moveDownUp1,
+     callbackScope: this,
+    loop: false,
+    });
+
+
+
+    this.ghost1 = this.physics.add.sprite(381, 196, "ghost")
+    this.ghost1.body.setSize(this.ghost1.width*1,this.ghost1.height*1)
+    this.physics.add.overlap(this.player, this.ghost1,this.overlap,null,this);
+
+    this.ghost2 = this.physics.add.sprite(1016, 246, "ghost")
+    this.ghost1.body.setSize(this.ghost1.width*1,this.ghost1.height*1)
+    this.physics.add.overlap(this.player, this.ghost1,this.overlap,null,this);
+ 
+
 
     // camera follow player
     // this.cameras.main.startFollow(this.player);
@@ -114,7 +141,85 @@ class world extends Phaser.Scene {
     }
 
 } /////////////////// end of update //////////////////////////////
+overlap(){
 
+
+
+  console.log("enemy overlap player")
+// lose a life
+
+
+
+  //shake the camera
+  this.cameras.main.shake(20);
+//play a sound
+}
+moveDownUp1() {
+
+    console.log("moveDownUp");
+
+    this.tweens.timeline({
+
+    targets: this.ghost1,
+
+    ease: "Linear",
+
+    loop: -1, // loop forever
+
+    duration: 2500,
+
+    tweens: [
+
+      {
+
+        y: 196,
+
+      },
+
+      {
+
+        y: 420
+
+      },
+
+    ],
+
+  });
+
+}
+moveDownUp2() {
+
+  console.log("moveDownUp");
+
+  this.tweens.timeline({
+
+  targets: this.ghost2,
+
+  ease: "Linear",
+
+  loop: -1, // loop forever
+
+  duration: 2500,
+
+  tweens: [
+
+    {
+
+      y: 246,
+
+    },
+
+    {
+
+      y: 441
+
+    },
+
+  ],
+
+});
+
+}
 
 room1(player, tile) {
   console.log("room1 function");

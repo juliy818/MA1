@@ -9,13 +9,13 @@
             debug: true
         }
     },
-    // scale: {
-    //     mode: Phaser.Scale.FIT,
-    //     autoCenter: Phaser.Scale.CENTER_BOTH
-    // },
+    scale: {
+        mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
     backgroundColor: '#000000',
     pixelArt: true,
-    scene: [preloadScene, world, room1,room2]
+    scene: [preloadScene,storyline, world, room1,room2]
 };
 
 var game = new Phaser.Game(config);
