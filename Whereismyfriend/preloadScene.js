@@ -1,4 +1,5 @@
-class preloadScene extends Phaser.Scene {
+class preloadScene extends Phaser.Scene 
+{
  
     constructor ()
     {
@@ -31,6 +32,8 @@ create() {
     
     this.add.image(0,0,'intro').setOrigin(0,0);
     console.log("This is intro")
+
+    
   
 
     

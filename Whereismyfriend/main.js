@@ -1,14 +1,18 @@
-class main extends Phaser.Scene {
+class main extends Phaser.Scene 
+{
 
-    constructor() {
-        super({
+    constructor() 
+    {
+        super(
+            {
             key: 'main'
-        });
+            });
 
         // Put global variable here
     }
 
-    preload() {
+    preload() 
+    {
 
         // Preload all the assets here
 
@@ -19,7 +23,8 @@ class main extends Phaser.Scene {
         // this.load.audio('bgMusic', 'assets/bgMusic.mp3');
     }
 
-    create() {
+    create() 
+    {
 
         console.log('*** main scene');
 
@@ -38,10 +43,12 @@ class main extends Phaser.Scene {
         var spaceDown = this.input.keyboard.addKey('SPACE');
 
         // On spacebar event, call the world scene        
-        spaceDown.on('down', function () {
+        spaceDown.on('down', function () 
+        {
             console.log('Jump to world scene');
 
-            this.scene.start('world',
+            this.scene.start
+            ('world',
                 // Optional parameters
                 {
 
@@ -51,10 +58,11 @@ class main extends Phaser.Scene {
 
 
         // Add any text in the main page
-        this.add.text(90, 600, 'Press spacebar to continue', {
-            font: '30px Courier',
-            fill: '#FFFFFF'
-        });
+        // this.add.text(90, 600, 'Press spacebar to continue', 
+        // {
+        //     font: '30px Courier',
+        //     fill: '#FFFFFF'
+        // });
 
 
         // Create all the game animations here

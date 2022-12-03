@@ -72,6 +72,27 @@ class world extends Phaser.Scene {
     this.riverLayer.setCollisionByExclusion(-1,true)
     this.physics.add.collider(this.riverLayer, this.player);
 
+    // this.riverLayer.setCollisionByProperty({brigde1:true})
+    // this.riverLayer.setCollisionByProperty({brigde2:true})
+    // this.riverLayer.setCollisionByProperty({brigde3:true})
+    // this.riverLayer.setCollisionByProperty({brigde4:true})
+
+    this.riverLayer.setTileIndexCallback(133, this.removeItem, this) 
+    this.riverLayer.setTileIndexCallback(134, this.removeItem, this) 
+    this.riverLayer.setTileIndexCallback(135, this.removeItem, this) 
+    this.riverLayer.setTileIndexCallback(136, this.removeItem, this)
+    this.riverLayer.setTileIndexCallback(155, this.removeItem, this)
+    this.riverLayer.setTileIndexCallback(68, this.removeItem, this) 
+    this.riverLayer.setTileIndexCallback(69, this.removeItem, this) 
+    this.riverLayer.setTileIndexCallback(70, this.removeItem, this)  
+     
+    
+
+    
+
+
+    
+    
     
 
    
@@ -99,11 +120,19 @@ class world extends Phaser.Scene {
 
     this.ghost1 = this.physics.add.sprite(381, 196, "ghost")
     this.ghost1.body.setSize(this.ghost1.width*1,this.ghost1.height*1)
-    this.physics.add.overlap(this.player, this.ghost1,this.overlap,null,this);
-
+    
     this.ghost2 = this.physics.add.sprite(1016, 246, "ghost")
-    this.ghost1.body.setSize(this.ghost1.width*1,this.ghost1.height*1)
-    this.physics.add.overlap(this.player, this.ghost1,this.overlap,null,this);
+    this.ghost2.body.setSize(this.ghost2.width*1,this.ghost2.height*1)
+
+    this.ghost3 = this.physics.add.sprite(781, 646, "ghost")
+    this.ghost3.body.setSize(this.ghost3.width*1,this.ghost3.height*1)
+
+    this.ghost4 = this.physics.add.sprite(781, 646, "ghost")
+    this.ghost4.body.setSize(this.ghost4.width*1,this.ghost4.height*1)
+
+    this.physics.add.overlap(this.player, [this.ghost1,this.ghost2],this.overlapGhost,null,this);
+
+
  
 
 
@@ -141,17 +170,14 @@ class world extends Phaser.Scene {
     }
 
 } /////////////////// end of update //////////////////////////////
-overlap(){
-
-
-
+overlapGhost(player, enemy){
   console.log("enemy overlap player")
-// lose a life
-
-
+// lose a lif
 
   //shake the camera
   this.cameras.main.shake(20);
+  enemy.disableBody(true,true)
+
 //play a sound
 }
 moveDownUp1() {
@@ -166,7 +192,7 @@ moveDownUp1() {
 
     loop: -1, // loop forever
 
-    duration: 2500,
+    duration: 1700,
 
     tweens: [
 
@@ -189,7 +215,7 @@ moveDownUp1() {
 }
 moveDownUp2() {
 
-  console.log("moveDownUp");
+  console.log("moveDownUp2");
 
   this.tweens.timeline({
 
@@ -220,6 +246,19 @@ moveDownUp2() {
 });
 
 }
+removeItem(player, tile) {
+
+  console.log('removeItem')
+
+ 
+  // remove tile , replaced with item
+  this.riverLayer.removeTileAt(tile.x, tile.y)
+  this.riverLayer.putTileAt(45, tile.x, tile.y)
+
+
+  
+}
+
 
 room1(player, tile) {
   console.log("room1 function");
