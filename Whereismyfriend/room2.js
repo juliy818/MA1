@@ -16,6 +16,7 @@ class room2 extends Phaser.Scene {
     this.load.tilemapTiledJSON("room2", "assets/room2.tmj");
     this.load.image("pippoyaPNG2", "assets/pipoya.png")
     this.load.image("board", "assets/board.png")
+    this.load.image("ghost", "assets/ghost.png");
 
 
 
@@ -67,14 +68,44 @@ class room2 extends Phaser.Scene {
         var board3 = map.findObject("objectLayer", (obj) => obj.name === "board3");
         this.board3 = this.physics.add.sprite(board3.x, board3.y, 'board');
 
-        this.physics.add.overlap(this.player, this.board1, collectboard, null, this);
-        this.physics.add.overlap(this.player, this.board2, collectboard, null, this);
-        this.physics.add.overlap(this.player, this.board3, collectboard, null, this);
+        this.physics.add.overlap(this.player, this.board1, this.collectboard, null, this);
+        this.physics.add.overlap(this.player, this.board2, this.collectboard, null, this);
+        this.physics.add.overlap(this.player, this.board3, this.collectboard, null, this);
 
-  
-
-
+        this.time.addEvent({
+          delay: 0,
+          callback: updateInventory,
+          callbackScope: this,
+         loop: false,
+         });
+   
         
+         this.time.addEvent({
+          delay: 0,
+          callback: this.moveDownUp1,
+          callbackScope: this,
+         loop: false,
+         });
+     
+         this.time.addEvent({
+           delay: 0,
+           callback: this.moveDownUp2,
+           callbackScope: this,
+          loop: false,
+          });
+      
+     
+     
+     
+         this.ghost1 = this.physics.add.sprite(72, 352, "ghost")
+         this.ghost1.body.setSize(this.ghost1.width*1,this.ghost1.height*1)
+         
+         this.ghost2 = this.physics.add.sprite(303, 840, "ghost")
+         this.ghost2.body.setSize(this.ghost2.width*1,this.ghost2.height*1)
+     
+     
+     
+         this.physics.add.overlap(this.player, [this.ghost1,this.ghost2],this.overlapGhost,null,this);
     }
 
     update() {
@@ -110,8 +141,75 @@ class room2 extends Phaser.Scene {
       //   console.log("jump to room2")
       //   this.room2();
       // }
+      
   
     }
+    moveDownUp1() {
+
+      console.log("moveDownUp");
+  
+      this.tweens.timeline({
+  
+      targets: this.ghost1,
+  
+      ease: "Linear",
+  
+      loop: -1, // loop forever
+  
+      duration: 4000,
+  
+      tweens: [
+  
+        {
+  
+          x: 342,
+  
+        },
+  
+        {
+  
+          x: 72
+  
+        },
+  
+      ],
+  
+    });
+  
+  }
+  moveDownUp2() {
+  
+    console.log("moveDownUp");
+  
+    this.tweens.timeline({
+  
+    targets: this.ghost2,
+  
+    ease: "Linear",
+  
+    loop: -1, // loop forever
+  
+    duration: 4000,
+  
+    tweens: [
+  
+      {
+  
+        x: 109,
+  
+      },
+  
+      {
+  
+        x: 303
+  
+      },
+  
+    ],
+  
+  });
+  
+  }
   
    
     // Function to jump to room1
@@ -122,27 +220,26 @@ class room2 extends Phaser.Scene {
       playerPos.y =71
       this.scene.start("world");
     }
+    collectboard(player,board){
+
+      console.log("collect_board");
+      window.board++
+      
+    
+    // this.Collectlove_snd.play()
+    
+    // window.heart++
+    
+    board.disableBody(true,true);
+    updateInventory.call(this)
+    // updateInventory.call(this)
+    
+    }
 
     }
 
     
-    function collectboard (mc, board1)
-
-    {
-        board1.disableBody(true, true);
-        }    
     
- function collectboard (mc, board2)
-
-    {
-        board2.disableBody(true, true);
-        }    
-    
-        function collectboard (mc, board3)
-
-        {
-            board3.disableBody(true, true);
-            }   
     
 
 

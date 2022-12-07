@@ -1,7 +1,7 @@
-﻿class storyline extends Phaser.Scene {
+﻿class win extends Phaser.Scene {
     constructor() {
       super({
-        key: "storyline",
+        key: "win",
       });
   
       // Put global variable here
@@ -9,20 +9,19 @@
   
     preload() {
   
-      this.load.image("storyline","assets/storyline.jpg");
+      this.load.image("winimg","assets/win.png");
   
     }
   
     create() {
-      console.log("*** storyline scene");
+      console.log("*** win scene");
   
-      this.add.image(0, 0, 'storyline').setOrigin(0, 0);
+      this.add.image(0, 0, 'winimg').setOrigin(0, 0);
       
       window.board=0
   
      
       var spaceDown = this.input.keyboard.addKey("SPACE");
-      
   
       
   
@@ -30,8 +29,9 @@
       spaceDown.on(
         "down",
         function () {
-          console.log("Jump to gameplay scene");
-          this.scene.start( "gameplay");
+          console.log("Jump to preloadScene");
+          this.scene.start( "preloadScene")
+          window.bgm.play();
         },
         this
       );

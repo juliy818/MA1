@@ -4,7 +4,7 @@
     width: 32 * 30,
     height: 32 * 30,
     physics: {
-        default: 'arcade',
+        default: 'arcade',  
         arcade: {
             debug: true
         }
@@ -13,9 +13,9 @@
         mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
-    backgroundColor: '#000000',
+    backgroundColor: '#E6B0AA',
     pixelArt: true,
-    scene: [preloadScene,storyline, world, room1,room2]
+    scene: [preloadScene,storyline,world, room1,room2,showInventory,gameplay,win,gameOver]
 };
 
 var game = new Phaser.Game(config);

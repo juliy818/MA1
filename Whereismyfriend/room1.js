@@ -16,6 +16,7 @@ class room1 extends Phaser.Scene {
     this.load.tilemapTiledJSON("room1", "assets/room1.tmj");
     this.load.image("pippoyaPNG", "assets/Example_pipoya (1).png");
     this.load.image("board", "assets/board.png")
+    this.load.image("ghost", "assets/ghost.png");
 
 
     }
@@ -23,6 +24,8 @@ class room1 extends Phaser.Scene {
     create() {
         console.log('*** room1 scene');
         let map = this.make.tilemap({ key: "room1" });
+
+        
 
         let pippoyaTiles = map.addTilesetImage("Example_pipoya (1)", "pippoyaPNG");
     
@@ -53,9 +56,9 @@ class room1 extends Phaser.Scene {
         var board3 = map.findObject("objectLayer", (obj) => obj.name === "board3");
         this.board3 = this.physics.add.sprite(board3.x, board3.y, 'board');
 
-        this.physics.add.overlap(this.player, this.board1, collectboard, null, this);
-        this.physics.add.overlap(this.player, this.board2, collectboard, null, this);
-        this.physics.add.overlap(this.player, this.board3, collectboard, null, this);
+        this.physics.add.overlap(this.player, this.board1, this.collectboard, null, this);
+        this.physics.add.overlap(this.player, this.board2, this.collectboard, null, this);
+        this.physics.add.overlap(this.player, this.board3, this.collectboard, null, this);
 
   
 
@@ -71,6 +74,36 @@ class room1 extends Phaser.Scene {
     
         // // camera follow player
         this.cameras.main.startFollow(this.player);
+
+        //enemy
+
+    this.time.addEvent({
+      delay: 0,
+      callback: this.moveDownUp1,
+      callbackScope: this,
+     loop: false,
+     });
+
+     this.time.addEvent({
+      delay: 0,
+      callback: this.moveDownUp2 ,
+      callbackScope: this,
+     loop: false,
+     });
+ 
+ 
+ 
+     this.ghost1 = this.physics.add.sprite(450, 288, "ghost")
+     this.ghost1.body.setSize(this.ghost1.width*1,this.ghost1.height*1)
+     
+     this.ghost2 = this.physics.add.sprite(874, 394, "ghost")
+     this.ghost2.body.setSize(this.ghost2.width*1,this.ghost2.height*1)
+ 
+    //  this.ghost3 = this.physics.add.sprite(781, 646, "ghost")
+    //  this.ghost3.body.setSize(this.ghost3.width*1,this.ghost3.height*1)
+ 
+      this.physics.add.overlap(this.player, [this.ghost1,this.ghost2,this.ghost3],this.overlapGhost,null,this);
+     
         
         
         // this.time.addEvent({
@@ -84,10 +117,15 @@ class room1 extends Phaser.Scene {
         //   loop: false,
   
         // });
-       
- 
-
+        this.scene.launch("showInventory")
         
+
+        this.time.addEvent({
+          delay: 0,
+          callback: updateInventory,
+          callbackScope: this,
+         loop: false,
+         });
         
     }
 
@@ -130,18 +168,130 @@ class room1 extends Phaser.Scene {
     }
     collectboard(player,board){
 
-      console.log("collectboard");
-    
-    // this.Collectlove_snd.play()
-    
-    // window.heart++
+      console.log("collect_board");
+      window.board++
     
     board.disableBody(true,true);
-    
-    // updateInventory.call(this)
+    updateInventory.call(this)
+   
     
     }
+    overlapGhost(player, enemy){
+      console.log("enemy overlap player")
+    // lose a lif
+    
+      //shake the camera
+      this.cameras.main.shake(20);
+      enemy.disableBody(true,true) 
+        this.scene.stop('world');
+        this.scene.start("gameOver")
+       
+      
+    
+    //play a sound
     }
+    moveDownUp1() {
+    
+        console.log("moveDownUp");
+    
+        this.tweens.timeline({
+    
+        targets: this.ghost1,
+    
+        ease: "Linear",
+    
+        loop: -1, // loop forever
+    
+        duration: 1000,
+    
+        tweens: [
+    
+          {
+    
+            y: 350
+    
+          },
+    
+          {
+    
+            y: 288
+    
+          },
+    
+        ],
+    
+      });
+    
+    }
+
+    moveDownUp2() {
+
+      console.log("moveRightLeft");
+    
+      this.tweens.timeline({
+    
+      targets: this.ghost2,
+    
+      ease: "Linear",
+    
+      loop: -1, // loop forever
+    
+      duration: 4000,
+    
+      tweens: [
+    
+        {
+    
+          x: 643,
+    
+        },
+    
+        {
+    
+          x: 874
+    
+        },
+    
+      ],
+    
+    });
+    
+    }
+    
+    
+   
+    removeItem(player, tile) {
+    
+      console.log('removeItem')
+    
+     
+      // remove tile , replaced with item
+      this.riverLayer.removeTileAt(tile.x, tile.y)
+      this.riverLayer.putTileAt(45, tile.x, tile.y)
+    
+    
+      
+    }
+    
+    
+    room1(player, tile) {
+      console.log("room1 function");
+      this.scene.start("room1");
+    }
+    collectboard(player,board){
+    
+      console.log("collect_board");
+      window.board++
+    
+    board.disableBody(true,true);
+    updateInventory.call(this)
+    
+    
+    }
+    
+     //////////// end of class world ////////////////////////
+    }
+    
 
 
 

@@ -3,9 +3,15 @@ class world extends Phaser.Scene {
     super({
       key: "world",
     });
-
+    
     // Put global variable here
   }
+
+  init(data) {
+    this.player = data.player
+    this.inventory = data.inventory
+}
+
 
   preload() {
     // Step 1, load JSON
@@ -86,17 +92,15 @@ class world extends Phaser.Scene {
     this.riverLayer.setTileIndexCallback(69, this.removeItem, this) 
     this.riverLayer.setTileIndexCallback(70, this.removeItem, this)  
      
-    
-
-    
-
-
-    
-    
-    
-
+    this.time.addEvent({
+      delay: 0,
+      callback: updateInventory,
+      callbackScope: this,
+     loop: false,
+     });
+      this.scene.launch("showInventory")
    
-    // create the arrow keys
+     // create the arrow keys
     this.cursors = this.input.keyboard.createCursorKeys();
     // this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -116,6 +120,20 @@ class world extends Phaser.Scene {
     loop: false,
     });
 
+    this.time.addEvent({
+      delay: 0,
+      callback: this.moveDownUp2,
+      callbackScope: this,
+     loop: false,
+     });
+ 
+     this.time.addEvent({
+      delay: 0,
+      callback: this.moveDownUp3,
+      callbackScope: this,
+     loop: false,
+     });
+
 
 
     this.ghost1 = this.physics.add.sprite(381, 196, "ghost")
@@ -124,17 +142,12 @@ class world extends Phaser.Scene {
     this.ghost2 = this.physics.add.sprite(1016, 246, "ghost")
     this.ghost2.body.setSize(this.ghost2.width*1,this.ghost2.height*1)
 
-    this.ghost3 = this.physics.add.sprite(781, 646, "ghost")
-    this.ghost3.body.setSize(this.ghost3.width*1,this.ghost3.height*1)
+    this.ghost3 = this.physics.add.sprite(334, 666, "ghost")
+    this.ghost3.body.setSize(this.ghost3.width*1,this.ghost2.height*1)
 
-    this.ghost4 = this.physics.add.sprite(781, 646, "ghost")
-    this.ghost4.body.setSize(this.ghost4.width*1,this.ghost4.height*1)
 
     this.physics.add.overlap(this.player, [this.ghost1,this.ghost2],this.overlapGhost,null,this);
-
-
- 
-
+    
 
     // camera follow player
     // this.cameras.main.startFollow(this.player);
@@ -168,7 +181,15 @@ class world extends Phaser.Scene {
       console.log("jump to room1")
       this.room1();
     }
-
+    if (
+      this.player.x > 600&&
+      this.player.x < 690&&
+      this.player.y > 553 &&
+      this.player.y < 600
+    ) {
+      console.log("jump to win")
+      this.win();
+    }
 } /////////////////// end of update //////////////////////////////
 overlapGhost(player, enemy){
   console.log("enemy overlap player")
@@ -176,7 +197,11 @@ overlapGhost(player, enemy){
 
   //shake the camera
   this.cameras.main.shake(20);
-  enemy.disableBody(true,true)
+  enemy.disableBody(true,true) 
+    this.scene.stop('world');
+    this.scene.start("gameOver")
+   
+  
 
 //play a sound
 }
@@ -192,19 +217,19 @@ moveDownUp1() {
 
     loop: -1, // loop forever
 
-    duration: 1700,
+    duration: 4000,
 
     tweens: [
 
       {
 
-        y: 196,
+        y: 420,
 
       },
 
       {
 
-        y: 420
+        y: 196
 
       },
 
@@ -215,7 +240,7 @@ moveDownUp1() {
 }
 moveDownUp2() {
 
-  console.log("moveDownUp2");
+  console.log("moveDownUp");
 
   this.tweens.timeline({
 
@@ -225,19 +250,19 @@ moveDownUp2() {
 
   loop: -1, // loop forever
 
-  duration: 2500,
+  duration: 4000,
 
   tweens: [
 
     {
 
-      y: 246,
+      y: 500,
 
     },
 
     {
 
-      y: 441
+      y: 246
 
     },
 
@@ -246,23 +271,75 @@ moveDownUp2() {
 });
 
 }
+moveDownUp3() {
+
+  console.log("moveRightLeft");
+
+  this.tweens.timeline({
+
+  targets: this.ghost3,
+
+  ease: "Linear",
+
+  loop: -1, // loop forever
+
+  duration: 4000,
+
+  tweens: [
+
+    {
+
+      x: 144,
+
+    },
+
+    {
+
+      x: 355
+
+    },
+
+  ],
+
+});
+
+}
+
+
 removeItem(player, tile) {
 
   console.log('removeItem')
-
- 
+  if(window.board>=6){
   // remove tile , replaced with item
   this.riverLayer.removeTileAt(tile.x, tile.y)
   this.riverLayer.putTileAt(45, tile.x, tile.y)
-
-
   
+  }
+
 }
 
 
 room1(player, tile) {
   console.log("room1 function");
   this.scene.start("room1");
+}
+
+
+win(player,tile) {
+  console.log("win function");
+  this.scene.start("win");
+  this.scene.stop("showInventory")
+}
+
+collectboard(player,board){
+
+  console.log("collect_board");
+  window.board++
+
+board.disableBody(true,true);
+updateInventory.call(this)
+
+
 }
 
  //////////// end of class world ////////////////////////

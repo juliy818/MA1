@@ -8,7 +8,7 @@ function updateInventory() {
     console.log("*** updateInventory()")
     // Emit events showInventory
     this.inventory = {}
-    this.inventory.heart = window.heart
+    this.inventory.board = window.board
     this.inventory.key = window.key
   
     console.log('*** updateInventory() Emit event', this.inventory)
@@ -30,8 +30,8 @@ function updateInventory() {
       // Shake screen
     this.cameras.main.shake(150);
   
-      window.heart--
-      guard.disableBody(false, true);
+      window.board++
+      board.disableBody(false, true);
       //this.updateInventory()
       updateInventory.call(this)
   
@@ -40,4 +40,4 @@ function updateInventory() {
       this.loseSnd.play();
     }
   }
-Footer
+

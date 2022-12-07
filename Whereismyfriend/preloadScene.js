@@ -27,12 +27,15 @@ create() {
         this.scene.start("storyline");
         }, this );
     
-    this.bgm= this.sound.add("bgm", {loop:true}).setVolume(0.2)
-    this.bgm.stop();
+    window.bgm= this.sound.add("bgm", {loop:true}).setVolume(0.2)
+    window.bgm.play();
     
     this.add.image(0,0,'intro').setOrigin(0,0);
     console.log("This is intro")
-
+    window.board = 0
+  
+    
+   
     
   
 
